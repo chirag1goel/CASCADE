@@ -15,7 +15,8 @@ import sys
 # ==================================================
 
 # Data Parameters
-tf.flags.DEFINE_string("test_data_file", "./../data/train-balanced.csv", "Data source")
+# tf.flags.DEFINE_string("test_data_file", "./../data/train-balanced.csv", "Data source")
+tf.flags.DEFINE_string("test_data_file", "./../data/custom_data.csv", "Data source")
 
 # Eval Parameters
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
