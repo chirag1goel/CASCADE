@@ -87,6 +87,24 @@ def load_data_and_labels_test(test_data_file):
     paragraphs = np.asarray(paragraphs)
     # Labels = np.asarray(Labels)
     return [users, paragraphs]
+    
+def load_data_and_labels_test_custom(test_data_file):
+    """
+    Loads MR polarity data from files, splits the data into words and generates labels.
+    Returns split sentences and labels.
+    """
+    # Load data from files
+    test_data = np.asarray(pd.read_csv(test_data_file, header=None,sep = ','))
+    users = test_data[:,2]
+    paragraphs = test_data[:,0]
+    # Labels = []
+    # for i in range(len(test_data)):
+    #     Labels.append([int(test_data[i][j]) for j in range(1,6,1)])
+    paragraphs = [(x.strip())[0:1000] for x in paragraphs if str(x) != 'nan']
+    paragraphs = [clean_str(x) for x in paragraphs]
+    paragraphs = np.asarray(paragraphs)
+    # Labels = np.asarray(Labels)
+    return [users, paragraphs]
 
 
 def batch_iter(data, batch_size, num_epochs, shuffle=True):
