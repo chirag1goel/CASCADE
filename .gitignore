@@ -11,3 +11,9 @@
 
 /src/mainbalancedpickle.p
 /src/models
+/confirm.txt
+/cookies.txt
+/fastText/*
+/src/__pycache__/*
+/src/graphs/*
+/src/nohup.out

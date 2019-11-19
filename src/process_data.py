@@ -23,16 +23,17 @@ def build_data_cv(data_folder, cv=10, clean_string=True):
 
     sarc_train_file = data_folder[0]
     sarc_test_file = data_folder[1]
-    
+    print("get training data")
     train_data = np.asarray(pd.read_csv(sarc_train_file, header=None))
+    print("get test data")
     test_data = np.asarray(pd.read_csv(sarc_test_file, header=None))
-
+    print("get comments data")
     comments = json.loads(open(COMMENTS_FILE).read())
     vocab = defaultdict(float)
 
 
 
-    
+    print("begin train data")
     for line in train_data: 
         rev = []
         label_str = line[2]
@@ -59,7 +60,7 @@ def build_data_cv(data_folder, cv=10, clean_string=True):
                   "num_words": len(orig_rev.split()),
                   "split": int(1)}
         revs.append(datum)
-        
+    print("begin test data")
     for line in test_data:
         rev = []
         label_str = line[2]
