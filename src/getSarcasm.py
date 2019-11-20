@@ -181,12 +181,12 @@ with graph.as_default():
 
         # Generate batches for one epoch
         # batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 1, shuffle=False)
-        test_batches = data_helpers.batch_iter_dev(list(zip(x, author_test, topic_test)), 4096)
+        test_batches = data_helpers.batch_iter_dev(list(zip(x_test, author_test, topic_test)), 4096)
         all_predictions = []
         scores_all = []
 
         for batch in test_batches:
-            feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1}
+            feed_dict = {input_x: x_test[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1}
 
             scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
             all_predictions = np.concatenate([all_predictions, predictions_list])
