@@ -134,9 +134,12 @@ cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(
 # y_temp = y_dev[:len(x_test)]
 x_test = x_test[:500]
 x = []
+max_l = 0
 for i in range(len(x_test)):
 	a = []
 	print(x_test[i])
+	if max_l < len(x_test[i].split()):
+		max_l = len(x_test[i].split()) 
 	for word in x_test[i].split():
 		if(word in word_idx_map):
 			a.append(word_idx_map[word])
