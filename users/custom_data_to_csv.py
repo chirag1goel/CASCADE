@@ -6,9 +6,9 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 	reader = csv.reader(csvfile, delimiter=',')
 	for row in reader:
 		flag = True
-		for row in finalData:
-			if(row["name"] == row[1]):
-				row["records"].append(row[0])
+		for user in finalData:
+			if(user["name"] == row[1]):
+				user["records"].append(row[0])
 				flag = False
 				break;
 		if(flag):
