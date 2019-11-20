@@ -115,7 +115,7 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 			topic_text_id.append(0)
 
 
-
+y = []
 for i in range(len(revs)):
     if revs[i]['split']==1:
         temp_y = revs[i]['label']
@@ -125,6 +125,7 @@ y = np.asarray(y)
 
 shuffle_indices = np.random.permutation(np.arange(len(y)))
 y_shuffled = y[shuffle_indices]
+dev_sample_index = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
 y_train, y_dev = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
 
 cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(vocab),word2vec_W = W,word_idx_map = word_idx_map,user_embeddings = user_embeddings,topic_embeddings = topic_embeddings,embedding_size=FLAGS.embedding_dim,batch_size=FLAGS.batch_size,filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),num_filters=FLAGS.num_filters,l2_reg_lambda=FLAGS.l2_reg_lambda)
@@ -146,8 +147,8 @@ author_test = np.asarray(author_text_id)
 
 sess=tf.Session()    
 #First let's load meta graph and restore weights
-saver = tf.train.import_meta_graph('main_balanced_user_plus_topic-1.meta')
-saver.restore(sess,tf.train.latest_checkpoint('./'))
+saver = tf.train.import_meta_graph('./models/main_balanced_user_plus_topic-1.meta')
+saver.restore(sess,tf.train.latest_checkpoint('./models/'))
 
 feed_dict = {
 	cnn.input_x: x_test,
