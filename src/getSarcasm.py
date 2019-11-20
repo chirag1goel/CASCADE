@@ -192,8 +192,8 @@ with graph.as_default():
         feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1}
 
         scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
-        all_predictions = np.concatenate([all_predictions, predictions_list])
-        scores_all = np.concatenate([scores_all, scores_list])
+        # all_predictions = np.concatenate([all_predictions, predictions_list])
+        # scores_all = np.concatenate([scores_all, scores_list])
 
             # x_dev_batch = x_dev[dev_batch[0]:dev_batch[1]]
             # author_dev_batch = author_dev[dev_batch[0]:dev_batch[1]]
@@ -211,9 +211,9 @@ with graph.as_default():
         #     batch_predictions = sess.run(predictions, {input_x: x_test_batch, dropout_keep_prob: 1.0})
             # all_predictions = np.concatenate([all_predictions, batch_predictions])
         print("PREDICTIONS -----")
-        print(all_predictions)
+        print(predictions_list)
         print("SCORES -----")
-        print(scores_all)
+        print(scores_list)
 
 # sess=tf.Session()    
 # #First let's load meta graph and restore weights
