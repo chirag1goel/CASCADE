@@ -90,6 +90,13 @@ print("topic emb size: ",topic_embeddings_size)
 #3817 - politics
 
 
+topics_dict = {}
+for i in range(len(topic_ids)):
+    try:
+        topics_dict[topic_ids[i]] = int(i)
+    except TypeError:
+        print(i)
+
 
 x_test = []
 author_text_id = []
@@ -99,13 +106,13 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 	# for row in reader:
 		x_test.append(row[0])
 		try:
-            author_text_id.append(wgcca_dict['"'+row[2]+'"'])
-        except KeyError:
-            author_text_id.append(0)
-        try:
-            topic_text_id.append(topics_dict["politics"])
-        except KeyError:
-            topic_text_id.append(0)
+			author_text_id.append(wgcca_dict['"'+row[2]+'"'])
+		except KeyError:
+			author_text_id.append(0)
+		try:
+			topic_text_id.append(topics_dict["politics"])
+		except KeyError:
+			topic_text_id.append(0)
 
 
 
