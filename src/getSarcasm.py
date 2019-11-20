@@ -186,12 +186,7 @@ with graph.as_default():
         scores = []
 
         for batch in test_batches:
-        	feed_dict = {
-                input_x: x[batch[0]:batch[1]],
-                input_author: author_test[batch[0]:batch[1]],
-                input_topic: topic_test[batch[0]:batch[1]],
-                dropout_keep_prob: 1
-            }
+            feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1}
 
             scores,predictions = sess.run([scores,predictions], feed_dict)
             all_predictions = np.concatenate([all_predictions, predictions])
