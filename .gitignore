@@ -8,9 +8,9 @@
 !/users/user_embeddings/_.txt
 
 /users/train_balanced_user.csv
-/users/train_balanced_user_custom.csv
+# /users/train_balanced_user_custom.csv
 /users/mr.p
-
+/users/__pycache__/*
 /src/mainbalancedpickle.p
 /src/models
 /confirm.txt
