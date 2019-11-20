@@ -138,11 +138,11 @@ for i in range(len(x_test)):
 	a = []
 	print(x_test[i])
 	for word in x_test[i].split():
-		try:
+		if(word in word_idx_map):
 			a.append(word_idx_map[word])
 			if(i<5):
 				print(word_idx_map[word])
-		except:
+		else:
 			a.append(0)
 	x.append(np.asarray(a))
 
