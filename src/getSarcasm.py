@@ -153,24 +153,70 @@ x = np.asarray(x)
 topic_test = np.asarray(topic_text_id)
 author_test = np.asarray(author_text_id)
 
-sess=tf.Session()    
-#First let's load meta graph and restore weights
-saver = tf.train.import_meta_graph('./models/main_balanced_user_plus_topic-1.meta')
-saver.restore(sess,tf.train.latest_checkpoint('./models/'))
 
-feed_dict = {
-	cnn.input_x: x,
-	cnn.input_author: author_test,
-	cnn.input_topic: topic_test,
-	cnn.input_y: y_temp,
-  	cnn.dropout_keep_prob: FLAGS.dropout_keep_prob
-}
 
-predictions, scores = sess.run([cnn.predictions,cnn.scores],feed_dict)
-print("PREDICTIONS -----")
-print(predictions)
-print("SCORES -----")
-print(scores)
+checkpoint_file = tf.train.latest_checkpoint('./models/')
+graph = tf.Graph()
+with graph.as_default():
+    session_conf = tf.ConfigProto(
+      allow_soft_placement=True,
+      log_device_placement=False)
+    sess = tf.Session(config=session_conf)
+    with sess.as_default():
+        # Load the saved meta graph and restore variables
+        # saver = tf.train.import_meta_graph("{}.meta".format(checkpoint_file))
+        saver = tf.train.import_meta_graph('./models/main_balanced_user_plus_topic-1.meta')
+        saver.restore(sess, checkpoint_file)
+
+        # Get the placeholders from the graph by name
+        input_x = graph.get_operation_by_name("input_x").outputs[0]
+        input_author = graph.get_operation_by_name("input_author").outputs[0]
+        input_topic = graph.get_operation_by_name("input_topic").outputs[0]
+        # input_y = graph.get_operation_by_name("input_y").outputs[0]
+        dropout_keep_prob = graph.get_operation_by_name("dropout_keep_prob").outputs[0]
+
+        # Tensors we want to evaluate
+        predictions = graph.get_operation_by_name("output/predictions").outputs[0]
+        scores = graph.get_operation_by_name("output/scores").outputs[0]
+
+        # Generate batches for one epoch
+        # batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 1, shuffle=False)
+
+        # Collect the predictions here
+        feed_dict = {
+            input_x: x,
+            input_author: author_test,
+            input_topic: topic_test,
+            dropout_keep_prob: 1
+        }
+        all_predictions = []
+        scores,predictions = sess.run([scores,predictions], feed_dict)
+        # for x_test_batch in batches:
+        #     batch_predictions = sess.run(predictions, {input_x: x_test_batch, dropout_keep_prob: 1.0})
+        #     all_predictions = np.concatenate([all_predictions, batch_predictions])
+        print("PREDICTIONS -----")
+        print(predictions)
+        print("SCORES -----")
+        print(scores)
+
+# sess=tf.Session()    
+# #First let's load meta graph and restore weights
+# saver = tf.train.import_meta_graph('./models/main_balanced_user_plus_topic-1.meta')
+# saver.restore(sess,tf.train.latest_checkpoint('./models/'))
+
+# feed_dict = {
+# 	cnn.input_x: x,
+# 	cnn.input_author: author_test,
+# 	cnn.input_topic: topic_test,
+# 	cnn.input_y: y_temp,
+#   	cnn.dropout_keep_prob: FLAGS.dropout_keep_prob
+# }
+
+# predictions, scores = sess.run([cnn.predictions,cnn.scores],feed_dict)
+# print("PREDICTIONS -----")
+# print(predictions)
+# print("SCORES -----")
+# print(scores)
 
 
 
