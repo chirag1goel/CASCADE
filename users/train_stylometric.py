@@ -8,7 +8,7 @@ import gensim, os
 TaggedDocument = gensim.models.doc2vec.TaggedDocument
 
 #Input file path
-USER_PARAGRAPH_INPUTS = "./train_balanced_user"
+USER_PARAGRAPH_INPUTS = "./train_balanced_user_custom"
 
 
 
