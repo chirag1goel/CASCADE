@@ -188,7 +188,7 @@ with graph.as_default():
         input_author = graph.get_operation_by_name("input_author").outputs[0]
         input_topic = graph.get_operation_by_name("input_topic").outputs[0]
         input_topic = graph.get_operation_by_name("input_topic").outputs[0]
-        user_w = graph.get_operation_by_name("user_W").outputs[0]
+        user_w = graph.get_operation_by_name("embedding/user_W").outputs[0]
         # input_y = graph.get_operation_by_name("input_y").outputs[0]
         dropout_keep_prob = graph.get_operation_by_name("dropout_keep_prob").outputs[0]
 
