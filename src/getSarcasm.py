@@ -181,7 +181,7 @@ with graph.as_default():
 
         # Generate batches for one epoch
         # batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 1, shuffle=False)
-        test_batches = data_helpers.batch_iter_dev(list(zip(x_test, author_test, topic_test)), 4096)
+        test_batches = data_helpers.batch_iter_dev(list(zip(x_test, author_test, topic_test)), 64)
         all_predictions = []
         scores_all = []
 
@@ -208,9 +208,9 @@ with graph.as_default():
         #     batch_predictions = sess.run(predictions, {input_x: x_test_batch, dropout_keep_prob: 1.0})
             # all_predictions = np.concatenate([all_predictions, batch_predictions])
         print("PREDICTIONS -----")
-        print(predictions)
+        print(all_predictions)
         print("SCORES -----")
-        print(scores)
+        print(scores_all)
 
 # sess=tf.Session()    
 # #First let's load meta graph and restore weights
