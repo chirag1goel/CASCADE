@@ -131,13 +131,17 @@ y_train, y_dev = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
 cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(vocab),word2vec_W = W,word_idx_map = word_idx_map,user_embeddings = user_embeddings,topic_embeddings = topic_embeddings,embedding_size=FLAGS.embedding_dim,batch_size=FLAGS.batch_size,filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),num_filters=FLAGS.num_filters,l2_reg_lambda=FLAGS.l2_reg_lambda)
 
 
-y_temp = y_dev[:len(x_test)]
+# y_temp = y_dev[:len(x_test)]
+x_test = x_test[:500]
 x = []
 for i in range(len(x_test)):
 	a = []
+	print(x_test[i])
 	for word in x_test[i].split():
 		try:
 			a.append(word_idx_map[word])
+			if(i<5):
+				print(word_idx_map[word])
 		except:
 			a.append(0)
 	x.append(np.asarray(a))
