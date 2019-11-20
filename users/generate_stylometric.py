@@ -5,7 +5,8 @@ import csv
 import gensim, os
 
 doc2vec = gensim.models.Doc2Vec.load('./models/user_stylometric.model')
-data = np.asarray(pd.read_csv('./train_balanced_user.csv', header=None))
+# data = np.asarray(pd.read_csv('./train_balanced_user.csv', header=None))
+data = np.asarray(pd.read_csv('./train_balanced_user_custom.csv', header=None))
 DIM = 300
 
 directory = "./user_embeddings"
