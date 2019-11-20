@@ -116,17 +116,17 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 
 
 
-x = []
-for i in range(len(x_test)):
-	x.append(np.asarray([word_idx_map[word] for word in x_test[i].split()]))
+# x = []
+# for i in range(len(x_test)):
+# 	x.append(np.asarray([word_idx_map[word] for word in x_test[i].split()]))
 
-# padding
-for i in range(len(x)):
-    if( len(x[i]) < max_l ):
-    	x[i] = np.append(x[i],np.zeros(max_l-len(x[i])))		
-    elif( len(x[i]) > max_l ):
-    	x[i] = x[i][0:max_l]
-x = np.asarray(x)
+# # padding
+# for i in range(len(x)):
+#     if( len(x[i]) < max_l ):
+#     	x[i] = np.append(x[i],np.zeros(max_l-len(x[i])))		
+#     elif( len(x[i]) > max_l ):
+#     	x[i] = x[i][0:max_l]
+# x = np.asarray(x)
 
 topic_test = np.asarray(topic_text_id)
 author_test = np.asarray(author_text_id)
