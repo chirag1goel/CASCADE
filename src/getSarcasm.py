@@ -117,7 +117,7 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 
 
 x = []
-for i in range(len(x_text)):
+for i in range(len(x_test)):
 	x.append(np.asarray([word_idx_map[word] for word in x_test[i].split()]))
 
 # padding
