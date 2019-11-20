@@ -72,7 +72,7 @@ user_embeddings = np.concatenate((unknown_vector, user_embeddings), axis=0)
 user_embeddings = user_embeddings.astype(dtype='float32')
 
 for i in range(283492):
-	np.concatenate((user_embeddings,unknown_vector), axis=0)
+	user_embeddings = np.concatenate((user_embeddings,unknown_vector), axis=0)
 	
 wgcca_dict = {}
 for i in range(len(ids)):
