@@ -188,7 +188,7 @@ with graph.as_default():
         scores_all = []
 
         for i in range(int(length/64)+1):
-        	batch = [i*64,(i*64)+64]
+             batch = [i*64,(i*64)+64]
             feed_dict = {input_x: x_test[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1}
 
             scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
