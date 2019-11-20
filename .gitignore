@@ -4,8 +4,8 @@
 /data/personality_essay.csv
 
 
-/users/user_embeddings/
-!/users/user_embeddings/_.txt
+!/users/user_embeddings/
+/users/user_embeddings/_.txt
 
 /users/train_balanced_user.csv
 # /users/train_balanced_user_custom.csv
@@ -19,3 +19,17 @@
 /src/__pycache__/*
 /src/graphs/*
 /src/nohup.out
+data/comments.json
+users/checkpoint
+users/confirm.txt
+users/cookies.txt
+users/data_helpers.pyc
+users/files.zip
+users/models/
+users/my_model-1.data-00000-of-00001
+users/my_model-1.index
+users/my_model-1.meta
+users/text_cnn.pyc
+users/user_embeddings/confirm.txt
+users/user_embeddings/cookies.txt
+users/user_embeddings/user_gcca_embeddings.npz

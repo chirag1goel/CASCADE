@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import csv
 
-doc_data = np.asarray(pd.read_csv('./user_embeddings/user_stylometric.csv', header=None))
+doc_data = np.asarray(pd.read_csv('./user_embeddings/user_stylometric_custom.csv', header=None))
 per_data = np.asarray(pd.read_csv('./user_embeddings/user_personality.csv', header=None))
 csvfile = open("./user_embeddings/user_view_vectors.csv",'w')
 wr = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
@@ -38,5 +38,6 @@ for user in users:
 	for j in range(len(map_dv[user])):
 		ls.append(float(map_dv[user][j]))
 	for j in range(len(map_pv[user])):
+		print(map_pv[user])
 		ls.append(float(map_pv[user][j]))
 	wr.writerow(ls)

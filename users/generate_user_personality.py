@@ -118,7 +118,7 @@ with graph.as_default():
         
         print(user, mp_vec[user])
         ls.append(user)
-        ls.append(mp_vec[user])
+        ls.append(",".join([str(item) for item in mp_vec[user]]))
         res.append(ls)
 
     with open(csvfile, "w") as output:
