@@ -36,7 +36,7 @@ for attr, value in sorted(FLAGS.__flags.items()):
 print("")
 
 print("loading data...",)
-users, x_raw = data_helpers.load_data_and_labels_test(FLAGS.test_data_file)
+users, x_raw = data_helpers.load_data_and_labels_test_custom(FLAGS.test_data_file)
 x = pickle.load(open("mr.p","rb"))
 revs, W, W2, word_idx_map, vocab = x[0], x[1], x[2], x[3], x[4]
 print("data loaded!")
