@@ -132,10 +132,13 @@ cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(
 
 x = []
 for i in range(len(x_test)):
-	try:
-		x.append(np.asarray([word_idx_map[word] for word in x_test[i].split()]))
-	except:
-		x.append(0)
+	a = []
+	for word in x_test[i].split():
+		try:
+			a.append(word_idx_map[word])
+		except:
+			a.append(0)
+	x.append(np.asarray(a))
 
 # padding
 for i in range(len(x)):
