@@ -130,17 +130,20 @@ y_train, y_dev = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
 
 cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(vocab),word2vec_W = W,word_idx_map = word_idx_map,user_embeddings = user_embeddings,topic_embeddings = topic_embeddings,embedding_size=FLAGS.embedding_dim,batch_size=FLAGS.batch_size,filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),num_filters=FLAGS.num_filters,l2_reg_lambda=FLAGS.l2_reg_lambda)
 
-# x = []
-# for i in range(len(x_test)):
-# 	x.append(np.asarray([word_idx_map[word] for word in x_test[i].split()]))
+x = []
+for i in range(len(x_test)):
+	try:
+		x.append(np.asarray([word_idx_map[word] for word in x_test[i].split()]))
+	except:
+		x.append(0)
 
-# # padding
-# for i in range(len(x)):
-#     if( len(x[i]) < max_l ):
-#     	x[i] = np.append(x[i],np.zeros(max_l-len(x[i])))		
-#     elif( len(x[i]) > max_l ):
-#     	x[i] = x[i][0:max_l]
-# x = np.asarray(x)
+# padding
+for i in range(len(x)):
+    if( len(x[i]) < max_l ):
+    	x[i] = np.append(x[i],np.zeros(max_l-len(x[i])))		
+    elif( len(x[i]) > max_l ):
+    	x[i] = x[i][0:max_l]
+x = np.asarray(x)
 
 topic_test = np.asarray(topic_text_id)
 author_test = np.asarray(author_text_id)
@@ -151,13 +154,16 @@ saver = tf.train.import_meta_graph('./models/main_balanced_user_plus_topic-1.met
 saver.restore(sess,tf.train.latest_checkpoint('./models/'))
 
 feed_dict = {
-	cnn.input_x: x_test,
+	cnn.input_x: x,
 	cnn.input_author: author_test,
 	cnn.input_topic: topic_test
 }
 
-val = sess.run([cnn.output],feed_dict)
-print(val)
+predictions, scores = sess.run([cnn.predictions,cnn.scores],feed_dict)
+print("PREDICTIONS -----")
+print(predictions)
+print("SCORES -----")
+print(scores)
 
 
 
