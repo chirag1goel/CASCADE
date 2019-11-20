@@ -12,7 +12,7 @@ DIM = 300
 directory = "./user_embeddings"
 if not os.path.exists(directory):
 	os.makedirs(directory)
-file = open(directory+"/user_stylometric.csv",'w')
+file = open(directory+"/user_stylometric_custom.csv",'w')
 wr = csv.writer(file, quoting=csv.QUOTE_ALL)
 
 # Inferring paragraphVec vectors for each user
