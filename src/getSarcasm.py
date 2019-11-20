@@ -144,6 +144,8 @@ for i in range(len(x_test)):
 				print(word_idx_map[word])
 		else:
 			a.append(0)
+			if(i<5):
+				print(0)
 	x.append(np.asarray(a))
 
 # padding
