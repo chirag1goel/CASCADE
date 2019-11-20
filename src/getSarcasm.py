@@ -181,19 +181,37 @@ with graph.as_default():
 
         # Generate batches for one epoch
         # batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 1, shuffle=False)
+        test_batches = data_helpers.batch_iter_dev(list(zip(x, author_test, topic_test)), 4096)
+        all_predictions = []
+        scores = []
+
+        for batch in test_batches:
+        	feed_dict = {
+                input_x: x[batch[0]:batch[1]],
+                input_author: author_test[batch[0]:batch[1]],
+                input_topic: topic_test[batch[0]:batch[1]],
+                dropout_keep_prob: 1
+            }
+
+            scores,predictions = sess.run([scores,predictions], feed_dict)
+            all_predictions = np.concatenate([all_predictions, predictions])
+            scores = np.concatenate([scores, predictions])
+
+            # x_dev_batch = x_dev[dev_batch[0]:dev_batch[1]]
+            # author_dev_batch = author_dev[dev_batch[0]:dev_batch[1]]
+            # topic_dev_batch = topic_dev[dev_batch[0]:dev_batch[1]]
+            # y_dev_batch = y_dev[dev_batch[0]:dev_batch[1]]
+            # a, b = dev_step(x_dev_batch, author_dev_batch, topic_dev_batch, y_dev_batch)
+            # dev_loss.append(a)
+            # conf_mat += b
 
         # Collect the predictions here
-        feed_dict = {
-            input_x: x,
-            input_author: author_test,
-            input_topic: topic_test,
-            dropout_keep_prob: 1
-        }
-        all_predictions = []
-        scores,predictions = sess.run([scores,predictions], feed_dict)
+        
+        
+        # scores,predictions = sess.run([scores,predictions], feed_dict)
         # for x_test_batch in batches:
         #     batch_predictions = sess.run(predictions, {input_x: x_test_batch, dropout_keep_prob: 1.0})
-        #     all_predictions = np.concatenate([all_predictions, batch_predictions])
+            # all_predictions = np.concatenate([all_predictions, batch_predictions])
         print("PREDICTIONS -----")
         print(predictions)
         print("SCORES -----")
