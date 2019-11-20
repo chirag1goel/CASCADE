@@ -5,13 +5,13 @@ finalData = []
 with open('../data/custom_data.csv', newline='') as csvfile:
 	reader = csv.reader(csvfile, delimiter=',')
 	for row in reader:
-		flag = False
+		flag = True
 		for row in finalData:
 			if(row["name"] == row[1]):
 				row["records"].append(row[0])
-				flag = True
+				flag = False
 				break;
-		if(!flag):
+		if(flag):
 			user = {}
 			user["name"] = row[1]
 			user["records"] = [row[0]]
