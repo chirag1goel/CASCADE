@@ -128,7 +128,7 @@ y_shuffled = y[shuffle_indices]
 dev_sample_index = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
 y_train, y_dev = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
 
-cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(vocab),word2vec_W = W,word_idx_map = word_idx_map,user_embeddings = user_embeddings,topic_embeddings = topic_embeddings,embedding_size=FLAGS.embedding_dim,batch_size=FLAGS.batch_size,filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),num_filters=FLAGS.num_filters,l2_reg_lambda=FLAGS.l2_reg_lambda)
+# cnn = TextCNN(sequence_length=max_l,num_classes=len(y_train[0]) ,vocab_size=len(vocab),word2vec_W = W,word_idx_map = word_idx_map,user_embeddings = user_embeddings,topic_embeddings = topic_embeddings,embedding_size=FLAGS.embedding_dim,batch_size=FLAGS.batch_size,filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),num_filters=FLAGS.num_filters,l2_reg_lambda=FLAGS.l2_reg_lambda)
 
 
 # y_temp = y_dev[:len(x_test)]
@@ -187,6 +187,8 @@ with graph.as_default():
         input_x = graph.get_operation_by_name("input_x").outputs[0]
         input_author = graph.get_operation_by_name("input_author").outputs[0]
         input_topic = graph.get_operation_by_name("input_topic").outputs[0]
+        input_topic = graph.get_operation_by_name("input_topic").outputs[0]
+        user_w = graph.get_operation_by_name("user_W").outputs[0]
         # input_y = graph.get_operation_by_name("input_y").outputs[0]
         dropout_keep_prob = graph.get_operation_by_name("dropout_keep_prob").outputs[0]
 
@@ -204,7 +206,7 @@ with graph.as_default():
 
         # for i in range(int(length/64)+1):
         batch = [0,500]
-        feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1}
+        feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1, user_w: user_embeddings}
 
         scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
         # all_predictions = np.concatenate([all_predictions, predictions_list])
