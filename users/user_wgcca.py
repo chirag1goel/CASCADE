@@ -371,7 +371,7 @@ def ldK(p, viewsToKeep, noOfViews):
     if(flds[0]=='\n'):
       continue
     for idx, vidx in enumerate(viewsToKeep):
-      count = int(flds[vidx+1].strip("\"").strip("\n"))
+      count = int(float(flds[vidx+1].strip("\"").strip("\n")))
       if count < 1:
         K[lnIdx,idx] = 0.0
   f.close()
