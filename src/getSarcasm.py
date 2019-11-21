@@ -71,9 +71,7 @@ unknown_vector = np.random.normal(size=(1,100))
 user_embeddings = np.concatenate((unknown_vector, user_embeddings), axis=0)
 user_embeddings = user_embeddings.astype(dtype='float32')
 
-
 user_embeddings = np.concatenate([user_embeddings,np.tile(unknown_vector,(283396,1))])
-
 
 # for i in range(92):
 # 	user_embeddings = np.concatenate((user_embeddings,unknown_vector), axis=0)
