@@ -72,7 +72,7 @@ user_embeddings = np.concatenate((unknown_vector, user_embeddings), axis=0)
 user_embeddings = user_embeddings.astype(dtype='float32')
 
 
-user_embeddings = np.concatenate([user_embeddings,np.tile(unknown_vector,(283492,1))])
+user_embeddings = np.concatenate([user_embeddings,np.tile(unknown_vector,(283397,1))])
 
 
 # for i in range(92):
