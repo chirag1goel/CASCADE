@@ -3,6 +3,7 @@
 /data/my_train_balanced.csv
 /data/personality_essay.csv
 
+/src/results.csv
 
 !/users/user_embeddings/
 /users/user_embeddings/_.txt
