@@ -234,7 +234,7 @@ with graph.as_default():
         		writeStr += str(scores_list[0][1]) + ","
         		writeStr += str(predictions_list[0]) + ","
         		# for ind in range(len(x[i])):
-    			writeStr += np.array2string(W[x[i]], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
+        		writeStr += np.array2string(W[x[i]], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
         		writer.writerows(writeStr)
         	print("finished writing")
         # all_predictions = np.concatenate([all_predictions, predictions_list])
