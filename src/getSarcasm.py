@@ -220,22 +220,22 @@ with graph.as_default():
         all_predictions = []
         scores_all = []
         with open("results.csv", 'w') as output_file:
-        	writer = csv.writer(output_file, quoting=csv.QUOTE_ALL)
+        	writer = csv.writer(output_file)
 
         	print("going to start writing")
         	for i in range(len(x)):
         		if (i%10000 == 0):
         			print("itr number: " + str(i))
         		writeStr = ""
-        		writeStr += str(x[i]) + ","
+        		writeStr += str(x_test[i]) + ","
         		feed_dict = {input_x: [x[i]],input_author: [author_test[i]],input_topic: [topic_test[i]],dropout_keep_prob: 1, user_w: user_embeddings}
         		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
         		writeStr += str(scores_list[0][0]) + ","
         		writeStr += str(scores_list[0][1]) + ","
         		writeStr += str(predictions_list[0]) + ","
         		# for ind in range(len(x[i])):
-        		writeStr += np.array2string(W[x[i]], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
-        		writer.writerows(writeStr)
+        		writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
+        		writer.writerows([writeStr.split(',')])
         	print("finished writing")
         # all_predictions = np.concatenate([all_predictions, predictions_list])
         # scores_all = np.concatenate([scores_all, scores_list])
