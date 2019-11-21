@@ -4,7 +4,7 @@
 /data/personality_essay.csv
 
 /src/results.csv
-
+/src/results_copy.csv
 !/users/user_embeddings/
 /users/user_embeddings/_.txt
 
