@@ -225,7 +225,10 @@ with graph.as_default():
         	writer.writerows((user["name"], " <END> ".join(user["records"]))
                          for user in finalData)
 
+        	print("going to start writing")
         	for i in range(len(x)):
+        		if (i%10000 == 0):
+        			print("itr number: " + str(i))
         		writeStr = ""
         		writeStr += str(x[i]) + ","
         		feed_dict = {input_x: x[i],input_author: author_test[i],input_topic: topic_test[i],dropout_keep_prob: 1, user_w: user_embeddings}
@@ -236,7 +239,7 @@ with graph.as_default():
         		for ind in len(x[i]):
         			writeStr += np.array2string(W[x[i]], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
         		writer.writerows(writeStr)
-
+        	print("finished writing")
         # all_predictions = np.concatenate([all_predictions, predictions_list])
         # scores_all = np.concatenate([scores_all, scores_list])
 
@@ -255,10 +258,10 @@ with graph.as_default():
         # for x_test_batch in batches:
         #     batch_predictions = sess.run(predictions, {input_x: x_test_batch, dropout_keep_prob: 1.0})
             # all_predictions = np.concatenate([all_predictions, batch_predictions])
-        print("PREDICTIONS -----")
-        print(predictions_list)
-        print("SCORES -----")
-        print(scores_list)
+        # print("PREDICTIONS -----")
+        # print(predictions_list)
+        # print("SCORES -----")
+        # print(scores_list)
 
 # sess=tf.Session()    
 # #First let's load meta graph and restore weights
