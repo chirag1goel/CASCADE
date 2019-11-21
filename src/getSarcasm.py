@@ -228,7 +228,7 @@ with graph.as_default():
         			print("itr number: " + str(i))
         		writeStr = ""
         		writeStr += str(x[i]) + ","
-        		feed_dict = {input_x: x[i],input_author: author_test[i],input_topic: topic_test[i],dropout_keep_prob: 1, user_w: user_embeddings}
+        		feed_dict = {input_x: [x[i]],input_author: [author_test[i]],input_topic: [topic_test[i]],dropout_keep_prob: 1, user_w: user_embeddings}
         		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
         		writeStr += str(scores_list[0][0]) + ","
         		writeStr += str(scores_list[0][1]) + ","
