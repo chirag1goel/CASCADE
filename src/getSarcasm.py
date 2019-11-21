@@ -126,7 +126,7 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 		except KeyError:
 			author_text_id.append(0)
 		try:
-			topic_text_id.append(topics_dict["politics"])
+			topic_text_id.append(topics_dict["AmericanPolitics"])
 		except KeyError:
 			topic_text_id.append(0)
 
@@ -148,7 +148,7 @@ y_train, y_dev = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
 
 
 # y_temp = y_dev[:len(x_test)]
-x_test = x_test[:500]
+# x_test = x_test[:500]
 x = []
 # max_l = 0
 for i in range(len(x_test)):
@@ -178,12 +178,12 @@ x = np.asarray(x)
 topic_test = np.asarray(topic_text_id)
 author_test = np.asarray(author_text_id)
 
-topic_test = topic_test[:500]
-author_test = author_test[:500]
+# topic_test = topic_test[:500]
+# author_test = author_test[:500]
 
 
-print(topic_test)
-print(author_test)
+# print(topic_test)
+# print(author_test)
 
 
 checkpoint_file = tf.train.latest_checkpoint('./models/')
@@ -219,12 +219,24 @@ with graph.as_default():
 
         all_predictions = []
         scores_all = []
+        with open("results.csv", 'w') as output_file:
+        	writer = csv.writer(output_file, quoting=csv.QUOTE_ALL)
 
-        # for i in range(int(length/64)+1):
-        batch = [0,500]
-        feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1, user_w: user_embeddings}
+        	writer.writerows((user["name"], " <END> ".join(user["records"]))
+                         for user in finalData)
 
-        scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
+        	for i in range(len(x)):
+        		writeStr = ""
+        		writeStr += str(x[i]) + ","
+        		feed_dict = {input_x: x[i],input_author: author_test[i],input_topic: topic_test[i],dropout_keep_prob: 1, user_w: user_embeddings}
+        		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
+        		writeStr += str(scores_list[0][0]) + ","
+        		writeStr += str(scores_list[0][1]) + ","
+        		writeStr += str(predictions_list[0][0]) + ","
+        		for ind in len(x[i]):
+        			writeStr += np.array2string(W[x[i]], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
+        		writer.writerows(writeStr)
+
         # all_predictions = np.concatenate([all_predictions, predictions_list])
         # scores_all = np.concatenate([scores_all, scores_list])
 
