@@ -232,7 +232,7 @@ with graph.as_default():
         		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
         		writeStr += str(scores_list[0][0]) + ","
         		writeStr += str(scores_list[0][1]) + ","
-        		writeStr += str(predictions_list[0][0]) + ","
+        		writeStr += str(predictions_list[0]) + ","
         		for ind in len(x[i]):
         			writeStr += np.array2string(W[x[i]], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
         		writer.writerows(writeStr)
