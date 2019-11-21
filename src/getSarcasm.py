@@ -72,7 +72,7 @@ user_embeddings = np.concatenate((unknown_vector, user_embeddings), axis=0)
 user_embeddings = user_embeddings.astype(dtype='float32')
 
 
-user_embeddings = np.concatenate([user_embeddings,np.tile(unknown_vector,(283397,1))])
+user_embeddings = np.concatenate([user_embeddings,np.tile(unknown_vector,(283396,1))])
 
 
 # for i in range(92):
@@ -126,7 +126,7 @@ with open('../data/custom_data.csv', newline='') as csvfile:
 		except KeyError:
 			author_text_id.append(0)
 		try:
-			topic_text_id.append(topics_dict["AmericanPolitics"])
+			topic_text_id.append(topics_dict["uspolitics"])
 		except KeyError:
 			topic_text_id.append(0)
 
@@ -153,18 +153,11 @@ x = []
 # max_l = 0
 for i in range(len(x_test)):
 	a = []
-	# print(x_test[i])
-	# if max_l < len(x_test[i].split()):
-	# 	max_l = len(x_test[i].split()) 
 	for word in x_test[i].split():
 		if(word in word_idx_map):
 			a.append(word_idx_map[word])
-			if(i<5):
-				print(word_idx_map[word])
 		else:
 			a.append(0)
-			if(i<5):
-				print(0)
 	x.append(np.asarray(a))
 
 # padding
@@ -213,7 +206,7 @@ with graph.as_default():
         scores = graph.get_operation_by_name("output/scores").outputs[0]
 
         # Generate batches for one epoch
-        batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 64, shuffle=False)
+        batches = data_helpers.batch_iter_dev(list(x_test), 4096)
         # test_batches = data_helpers.batch_iter_dev(list(zip(x_test, author_test, topic_test)), 64)
         length = len(x_test)
 
@@ -223,21 +216,21 @@ with graph.as_default():
         	writer = csv.writer(output_file)
 
         	print("going to start writing")
-            for batch in batches
+        	for i,batch in enumerate(batches):
         	# for i in range(int(len(x)/64)+1):
-        		if (batch[1]%6400 == 0):
-        			print("itr number: " + str(batch[1]))
+        		#if (batch[1]%6400 == 0):
+        		print("batch number: " + str(i) + " of " + str(len(batches)))
         		feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1, user_w: user_embeddings}
         		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
-                for i in range(batch[1]-batch[0]):
-                    writeStr = ""
-                    writeStr += str(x_test[batch[0]+i]) + ","
-            		writeStr += str(scores_list[i][0]) + ","
-            		writeStr += str(scores_list[i][1]) + ","
-            		writeStr += str(predictions_list[i]) + ","
-            		# for ind in range(len(x[i])):
-            		writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
-            		writer.writerows([writeStr.split(',')])
+        		for i in range(batch[1]-batch[0]):
+       				writeStr = ""
+        			writeStr += str(x_test[batch[0]+i]) + ","
+        			writeStr += str(scores_list[i][0]) + ","
+       				writeStr += str(scores_list[i][1]) + ","
+        			writeStr += str(predictions_list[i]) + ","
+       				# for ind in range(len(x[i])):
+        			writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
+        			writer.writerows([writeStr.split(',')])
         	print("finished writing")
         # all_predictions = np.concatenate([all_predictions, predictions_list])
         # scores_all = np.concatenate([scores_all, scores_list])
