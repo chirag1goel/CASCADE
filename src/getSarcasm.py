@@ -213,7 +213,7 @@ with graph.as_default():
         scores = graph.get_operation_by_name("output/scores").outputs[0]
 
         # Generate batches for one epoch
-        # batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 1, shuffle=False)
+        batches = data_helpers.batch_iter(list(x_test), FLAGS.batch_size, 64, shuffle=False)
         # test_batches = data_helpers.batch_iter_dev(list(zip(x_test, author_test, topic_test)), 64)
         length = len(x_test)
 
@@ -223,19 +223,21 @@ with graph.as_default():
         	writer = csv.writer(output_file)
 
         	print("going to start writing")
-        	for i in range(len(x)):
-        		if (i%10000 == 0):
-        			print("itr number: " + str(i))
-        		writeStr = ""
-        		writeStr += str(x_test[i]) + ","
-        		feed_dict = {input_x: [x[i]],input_author: [author_test[i]],input_topic: [topic_test[i]],dropout_keep_prob: 1, user_w: user_embeddings}
+            for batch in batches
+        	# for i in range(int(len(x)/64)+1):
+        		if (batch[1]%6400 == 0):
+        			print("itr number: " + str(batch[1]))
+        		feed_dict = {input_x: x[batch[0]:batch[1]],input_author: author_test[batch[0]:batch[1]],input_topic: topic_test[batch[0]:batch[1]],dropout_keep_prob: 1, user_w: user_embeddings}
         		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
-        		writeStr += str(scores_list[0][0]) + ","
-        		writeStr += str(scores_list[0][1]) + ","
-        		writeStr += str(predictions_list[0]) + ","
-        		# for ind in range(len(x[i])):
-        		writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
-        		writer.writerows([writeStr.split(',')])
+                for i in range(batch[1]-batch[0]):
+                    writeStr = ""
+                    writeStr += str(x_test[batch[0]+i]) + ","
+            		writeStr += str(scores_list[i][0]) + ","
+            		writeStr += str(scores_list[i][1]) + ","
+            		writeStr += str(predictions_list[i]) + ","
+            		# for ind in range(len(x[i])):
+            		writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
+            		writer.writerows([writeStr.split(',')])
         	print("finished writing")
         # all_predictions = np.concatenate([all_predictions, predictions_list])
         # scores_all = np.concatenate([scores_all, scores_list])
