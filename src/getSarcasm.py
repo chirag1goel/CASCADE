@@ -222,9 +222,6 @@ with graph.as_default():
         with open("results.csv", 'w') as output_file:
         	writer = csv.writer(output_file, quoting=csv.QUOTE_ALL)
 
-        	writer.writerows((user["name"], " <END> ".join(user["records"]))
-                         for user in finalData)
-
         	print("going to start writing")
         	for i in range(len(x)):
         		if (i%10000 == 0):
