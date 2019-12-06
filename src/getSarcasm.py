@@ -115,10 +115,12 @@ for i in range(len(topic_ids)):
 x_test = []
 author_text_id = []
 topic_text_id = []
+ids = []
 with open('../data/custom_data.csv', newline='') as csvfile:
 	for row in csv.reader((line.replace('\0','') for line in csvfile), delimiter=","):
 	# for row in reader:
 		x_test.append(row[0])
+		ids.append(row[10])
 		try:
 			author_text_id.append(wgcca_dict['"'+row[2]+'"'])
 		except KeyError:
@@ -176,6 +178,8 @@ author_test = np.asarray(author_text_id)
 # print(topic_test)
 # print(author_test)
 
+def softmax(x):
+	return np.exp(x) / np.sum(np.exp(x), axis=0)
 
 checkpoint_file = tf.train.latest_checkpoint('./models/')
 graph = tf.Graph()
@@ -222,12 +226,16 @@ with graph.as_default():
         		scores_list,predictions_list = sess.run([scores,predictions], feed_dict)
         		for i in range(batch[1]-batch[0]):
        				writeStr = ""
-        			writeStr += str(x_test[batch[0]+i]) + ","
+        			writeStr += str(ids[batch[0]+i]) + ","
         			writeStr += str(scores_list[i][0]) + ","
        				writeStr += str(scores_list[i][1]) + ","
         			writeStr += str(predictions_list[i]) + ","
+        			softmaxValues = softmax(np.array([scores_list[i][0],scores_list[i][1]]))
+        			writeStr += str(softmaxValues[0]) + ","
+        			writeStr += str(softmaxValues[1])
+        			#writeStr += "\"" + str(x_test[batch[0]+i]) + "\"" + ","
        				# for ind in range(len(x[i])):
-        			writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
+        			#writeStr += np.array2string(W[x[i].astype(int)], formatter={'float_kind':lambda x: "%.8f" % x}, separator=",")
         			writer.writerows([writeStr.split(',')])
         	print("finished writing")
         # all_predictions = np.concatenate([all_predictions, predictions_list])
